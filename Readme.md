@@ -8,8 +8,10 @@
   Quick install via go-get:
 
 ```
-$ go get github.com/segmentio/go-loggly-cli
-$ go-loggly-cli --version
+$ git clone git@github.com:hanken/go-loggly-cli.git
+$ cd go-loggly-cli
+$ make
+$ ./loggly.sh
 ```
 
 ## Usage
@@ -28,26 +30,12 @@ $ go-loggly-cli --version
     --to <time>        ending time [now]
     --json             output json array of events
     --count            output total event count
-
+	--message-only     shows timestamp and message only
 ```
 
-## Setup
+## Config
+	Configure ACCOUNT, USER and PASSWORD in loggly.sh
 
- Loggly's search API requires basic auth credentials, so you _must_ pass
- the `--acount`, `--user`, and `--pass` flags. To make this less annoying
- I suggest creating an alias:
-
-```sh
-alias logs='loggly --account segment --user tj --pass something'
-```
-
- This is a great place to stick personal defaults as well. Since flags are clobbered
- if defined multiple times you can define whatever defaults you'd like here, while
- still changing them via `log`:
-
-```sh
-alias logs='loggly --account segment --user tj --pass something --size 5'
-```
 
 ## License
 

@@ -73,6 +73,7 @@ var pass = flags.String("pass", "", "")
 var size = flags.Int("size", 100, "")
 var from = flags.String("from", "-24h", "")
 var to = flags.String("to", "now", "")
+var message = flags.Bool("message-only", false, "")
 
 //
 // Colors.
@@ -158,6 +159,9 @@ func main() {
 	if *json {
 		outputJson(res.Events)
 		os.Exit(0)
+	} else if *message {
+		outputMessage(res.Events)
+		os.Exit(0)
 	}
 
 	// formatted
@@ -183,6 +187,33 @@ func outputJson(events []interface{}) {
 	}
 
 	fmt.Println("]")
+}
+
+// outputMessage
+func outputMessage (events []interface{}) {
+	for _, event := range events {
+		msg := event.(map[string]interface{})["logmsg"].(string)
+		obj, err := j.NewJson([]byte(msg))
+
+		if err != nil {
+			fmt.Println(msg)
+			continue
+		}
+
+		ts :=  obj.Get("@timestamp").MustString()
+
+    	date, err := time.Parse(time.RFC3339, ts)
+		if err != nil {
+			fmt.Println(msg)
+			continue
+		}
+
+		fdate := strftime.Format("%m-%d %I:%M:%S %p", date)
+		message := obj.Get("message").MustString()
+		if len(message) > 0 {
+		    fmt.Printf("%s - %s\n", fdate,message)
+		}
+	}
 }
 
 //
