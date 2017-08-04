@@ -30,7 +30,7 @@ $ ./loggly.sh
     --to <time>        ending time [now]
     --json             output json array of events
     --count            output total event count
-	--message-only     shows timestamp and message only
+    --message-only     shows timestamp and message only
 ```
 
 ## Config
